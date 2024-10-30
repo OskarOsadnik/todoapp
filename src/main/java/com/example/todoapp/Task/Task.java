@@ -1,14 +1,14 @@
-package com.example.todoapp.Tasks;
+package com.example.todoapp.Task;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @Entity
 @Table
-public class Tasks {
+public class Task {
 
     @Id
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
@@ -19,16 +19,14 @@ public class Tasks {
     private int author_id;
     private String creation_date;
 
-    // Constructor
-    public Tasks(int task_id, String title, String content, int author_id, String creation_date) {
+    public Task(int task_id, String title, String content, int author_id, String creation_date) {
         this.task_id = task_id;
         this.title = title;
         this.content = content;
         this.author_id = author_id;
         this.creation_date = creation_date;
-
     }
 
-    public Tasks() {}
+    public Task() {}
 
 }

@@ -3,6 +3,8 @@ package com.example.todoapp.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.cglib.core.Local;
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -20,6 +22,7 @@ public class User {
     private String surname;
     private int privileges;
     private String birthday;
+    private LocalDate creation_date;
 
     public User(int user_id, String login, String password, String name, String surname, int privileges, String birthday) {
         this.user_id = user_id;

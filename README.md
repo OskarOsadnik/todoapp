@@ -8,4 +8,5 @@
 ## v1.2b
 - Zmiana nazewnictwa na camelcase
 - Dodane pełne szyfrowanie hasła
+- Usunięcie @Query
 - Funkcjonalność PUT w przebudowie

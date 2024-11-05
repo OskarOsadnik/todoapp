@@ -5,4 +5,7 @@
 ## v1.1
 - Szyfrowanie hasła (użytkownik -> baza danych)
 - Przechowywanie daty utworzenia użytkownika
-  
+## v1.2b
+- Zmiana nazewnictwa na camelcase
+- Dodane pełne szyfrowanie hasła
+- Funkcjonalność PUT w przebudowie

@@ -11,63 +11,33 @@ import java.util.Map;
 @RequestMapping(path = "api/v1/user")
 public class UserController {
 
-    private final UserServiceImpl user_service;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public UserController(UserServiceImpl user_service) {
-        this.user_service = user_service;
+    public UserController(UserServiceImpl userService) {
+        this.userService = userService;
     }
 
     @GetMapping
-    public List<User> get_user() {
-        return user_service.get_user();
+    public List<User> getUser() {
+        return userService.getUser();
     }
 
     @PostMapping
-    public Map<String, List<User>> register_user(@RequestBody User user) {
-        user_service.add_new_user(user);
+    public Map<String, List<User>> registerUser(@RequestBody User user) {
+        userService.addNewUser(user);
         return Map.of("User added to database:", List.of(user));
     }
 
-    @DeleteMapping(path = "{user_id}")
-    public ResponseEntity<String> delete_user(@PathVariable("user_id") Long user_id) {
-        user_service.delete_user(user_id);
+    @DeleteMapping(path = "{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable("userId") Long userId) {
+        userService.deleteUser(userId);
         return ResponseEntity.ok("User deleted from database");
     }
 
-    @PutMapping(path = "{user_id}")
-    public void update_user(@PathVariable("user_id") Long user_id, @RequestParam(required = false) String name, @RequestParam(required = false) String login) {
-        user_service.update_user(user_id, name, login);
+    @PutMapping(path = "{userId}")
+    public void updateUser(@RequestBody User user,@PathVariable("userId") Long userId, @RequestParam(required = false) String name, @RequestParam(required = false) String login, @RequestParam(required = false) String password, @RequestParam(required = false) String surname, @RequestParam(required = false) String birthday ) {
+        userService.updateUser(userId, name, login, password, surname, birthday);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    @GetMapping
-//    public List<Users> getUsers(Users users) {
-//        List<Users> usersList = new ArrayList<>();
-//        Users user1 = new Users(1, "o.osadnik@wasko.pl", "mojehaslo", "Oskar", "Osadnik", 1, "07-11-2006");
-//        return usersList;
-//
-//    }
 }

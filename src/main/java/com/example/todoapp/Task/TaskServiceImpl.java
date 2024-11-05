@@ -1,42 +1,63 @@
 package com.example.todoapp.Task;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Component
 public class TaskServiceImpl implements TaskService {
 
-    private final TaskRepository task_repository;
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public TaskServiceImpl(TaskRepository task_repository) {this.task_repository = task_repository;}
+    public TaskServiceImpl(TaskRepository taskRepository) {this.taskRepository = taskRepository;}
 
     // GET
-    public List<Task> get_task() {
-        return task_repository.findAll();
+    public List<com.example.todoapp.Task.Task> getTask() {
+        return taskRepository.findAll();
     }
 
     // POST
-    public void add_new_task(Task task) {
-        task_repository.save(task);
+    public void addNewTask(com.example.todoapp.Task.Task task) {
+        taskRepository.save(task);
     }
 
     // DELETE
-    public void delete_task(Long task_id) {
-        boolean exists = task_repository.existsById(task_id);
+    public void deleteTask(Long taskId) {
+        boolean exists = taskRepository.existsById(taskId);
         if (!exists) {
-            throw new IllegalArgumentException("Task with id " + task_id + " does not exist");
+            throw new IllegalArgumentException("Task with id " + taskId + " does not exist");
         }
-        task_repository.deleteById(task_id);
+        taskRepository.deleteById(taskId);
     }
 
     // PUT
     @Transactional
-    public void update_task(Long task_id) {
-        Task task = task_repository.findById(task_id).orElseThrow(() -> new IllegalStateException("Task with id " + task_id + "does not exists"));
+    public void updateTask(Long taskId, Task updatedTask) {
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalStateException("Task with id " + taskId + "does not exists"));
+
+        if (updatedTask == null){
+            throw new IllegalArgumentException("Updated user cannot be null");
+        }
+
+        if (updatedTask.getTitle() != null && !updatedTask.getTitle().isEmpty() && !Objects.equals(task.getTitle(), updatedTask.getTitle())) {
+            task.setTitle(updatedTask.getTitle());
+        }
+
+        if(updatedTask.getContent() != null && !updatedTask.getContent().isEmpty() && !Objects.equals(task.getContent(), updatedTask.getContent())) {
+            task.setContent(updatedTask.getContent());
+        }
+
+        if(updatedTask.getAuthorId() != 0 && !Objects.equals(task.getAuthorId(), updatedTask.getAuthorId())) {
+            task.setAuthorId(updatedTask.getAuthorId());
+        }
+
+        taskRepository.save(task);
+
     }
 
 }

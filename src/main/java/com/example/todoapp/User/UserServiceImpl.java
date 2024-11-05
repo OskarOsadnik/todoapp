@@ -46,35 +46,38 @@ public class UserServiceImpl implements UserService {
 
     // PUT
     @Transactional
-    public void updateUser(Long userId, String login, String password, String name, String surname, String birthday) {
+    public void updateUser(Long userId, User updatedUser) {
      User user = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException("User with id " + userId + "does not exists"));
 
-        if (name != null && name.length() > 0 && !Objects.equals(user.getName(), name)) {
-            user.setName(name);
+        if (updatedUser == null){
+            throw new IllegalArgumentException("Updated user cannot be null");
         }
 
-        if(login != null && login.length() > 0 && !Objects.equals(user.getLogin(), login)) {
-            Optional<User> userOptional = userRepository.findByLogin(login);
+        if (updatedUser.getName() != null && !updatedUser.getName().isEmpty() && !Objects.equals(user.getName(), updatedUser.getName())) {
+            user.setName(updatedUser.getName());
+        }
+
+        if(updatedUser.getLogin() != null && !updatedUser.getLogin().isEmpty() && !Objects.equals(user.getLogin(), updatedUser.getLogin())) {
+            Optional<User> userOptional = userRepository.findByLogin(updatedUser.getLogin());
             if (userOptional.isPresent()) {
-                throw new IllegalArgumentException("Login " + login + " already exists");
+                throw new IllegalArgumentException("Login " + updatedUser.getLogin() + " already exists");
             }
-            user.setLogin(login);
+            user.setLogin(updatedUser.getLogin());
         }
 
-        if(password != null && password.length() > 0 && !Objects.equals(user.getPassword(), password)) {
-            user.setPassword(password);
+        if(updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty() && !Objects.equals(user.getPassword(), updatedUser.getPassword())) {
+            user.setPassword(updatedUser.getPassword());
         }
 
-        if(surname != null && surname.length() > 0 && !Objects.equals(user.getSurname(), surname)) {
-            user.setSurname(surname);
+        if(updatedUser.getSurname() != null && !updatedUser.getSurname().isEmpty() && !Objects.equals(user.getSurname(), updatedUser.getSurname())) {
+            user.setSurname(updatedUser.getSurname());
         }
 
-        if(birthday != null && birthday.length() > 0 && !Objects.equals(user.getBirthday(), birthday)) {
-            user.setBirthday(birthday);
+        if(updatedUser.getBirthday() != null && !updatedUser.getBirthday().isEmpty() && !Objects.equals(user.getBirthday(), updatedUser.getBirthday())) {
+            user.setBirthday(updatedUser.getBirthday());
         }
 
         userRepository.save(user);
-
 
     }
 

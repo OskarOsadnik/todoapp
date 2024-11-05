@@ -5,8 +5,9 @@
 ## v1.1
 - Szyfrowanie hasła (użytkownik -> baza danych)
 - Przechowywanie daty utworzenia użytkownika
-## v1.2b
-- Zmiana nazewnictwa na camelcase
-- Dodane pełne szyfrowanie hasła
+## v1.2
+- Ostateczna zmiana nazewnictwa
+- Pełne szyfrowanie hasła
 - Usunięcie @Query
-- Funkcjonalność PUT w przebudowie
+- Wszystkie funkcjonalności RESTa działają
+

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -11,32 +12,33 @@ import java.util.Map;
 @RequestMapping(path = "api/v1/task")
 public class TaskController {
 
-    private final TaskServiceImpl task_service;
+    private final TaskServiceImpl taskService;
 
     @Autowired
-    public TaskController(TaskServiceImpl task_service) {
-        this.task_service = task_service;
+    public TaskController(TaskServiceImpl taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping
-    public List<Task> get_task() {
-        return task_service.get_task();
+    public List<Task> getTask() {
+        return taskService.getTask();
     }
 
     @PostMapping
-    public Map<String, List<Task>> create_task(@RequestBody Task task) {
-        task_service.add_new_task(task);
+    public Map<String, List<Task>> createTask(@RequestBody Task task) {
+        taskService.addNewTask(task);
         return Map.of("Task added to database:", List.of(task));
     }
 
-    @DeleteMapping(path = "{task_id}")
-    public ResponseEntity<String> delete_task(@PathVariable("task_id") Long task_id) {
-        task_service.delete_task(task_id);
+    @DeleteMapping(path = "{taskId}")
+    public ResponseEntity<String> deleteTask(@PathVariable("taskId") Long taskId) {
+        taskService.deleteTask(taskId);
         return ResponseEntity.ok("Task deleted from database");
     }
 
-    @PutMapping(path = "{task_id}")
-    public void update_task(@PathVariable("task_id") Long task_id) {
-        task_service.update_task(task_id);
+    @PutMapping(path = "{taskId}")
+    public ResponseEntity<String> updateTask(@RequestBody Task task, @PathVariable("taskId") Long taskId) {
+        taskService.updateTask(taskId, task);
+        return ResponseEntity.ok("Task updated from database");
     }
 }

@@ -3,7 +3,6 @@ package com.example.todoapp.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +35,8 @@ public class UserController {
     }
 
     @PutMapping(path = "{userId}")
-    public void updateUser(@RequestBody User user,@PathVariable("userId") Long userId, @RequestParam(required = false) String name, @RequestParam(required = false) String login, @RequestParam(required = false) String password, @RequestParam(required = false) String surname, @RequestParam(required = false) String birthday ) {
-        userService.updateUser(userId, name, login, password, surname, birthday);
+    public ResponseEntity<String> updateUser(@RequestBody User user, @PathVariable("userId") Long userId) {
+        userService.updateUser(userId, user);
+        return ResponseEntity.ok("User updated from database");
     }
-
 }

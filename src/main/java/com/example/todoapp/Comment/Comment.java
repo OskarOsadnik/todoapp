@@ -1,11 +1,11 @@
 package com.example.todoapp.Comment;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+
+@Data
+@AllArgsConstructor
 @Entity
 @Table
 public class Comment {
@@ -13,23 +13,12 @@ public class Comment {
     @Id
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
-    private int comment_id;
+    private int commentId;
     private String title;
     private String content;
-    private int author_id;
-    private int parent_id;
-    private String creation_date;
-    private int task_id;
-
-    public Comment(int comment_id, String content, int author_id, int parent_id, String creation_date, int task_id) {
-        this.comment_id = comment_id;
-        this.content = content;
-        this.author_id = author_id;
-        this.parent_id = parent_id;
-        this.creation_date = creation_date;
-        this.task_id = task_id;
-        this.title = title;
-    }
+    private int authorId;
+    private int parentId;
+    private int taskId;
 
     public Comment() {}
 

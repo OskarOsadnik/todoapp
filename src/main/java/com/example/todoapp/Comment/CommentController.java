@@ -3,6 +3,8 @@ package com.example.todoapp.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -10,32 +12,32 @@ import java.util.Map;
 @RequestMapping(path = "api/v1/comment")
 public class CommentController {
 
-    private final CommentServiceImpl comment_service;
+    private final CommentServiceImpl commentService;
 
     @Autowired
-    public CommentController(CommentServiceImpl comment_service) {
-        this.comment_service = comment_service;
+    public CommentController(CommentServiceImpl commentService) {
+        this.commentService = commentService;
     }
 
     @GetMapping
-    public List<Comment> get_comment() {
-        return comment_service.get_comment();
+    public List<Comment> getComment() {
+        return commentService.getComment();
     }
 
     @PostMapping
-    public Map<String, List<Comment>> create_comment(@RequestBody Comment comment) {
-        comment_service.add_new_comment(comment);
+    public Map<String, List<Comment>> createComment(@RequestBody Comment comment) {
+        commentService.addNewComment(comment);
         return Map.of("Comment added to database:", List.of(comment));
     }
 
-    @DeleteMapping(path = "{comment_id}")
-    public ResponseEntity<String> delete_comment(@PathVariable("comment_id") Long comment_id) {
-            comment_service.delete_comment(comment_id);
+    @DeleteMapping(path = "{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId) {
+            commentService.deleteComment(commentId);
             return ResponseEntity.ok("Comment deleted from database");
     }
 
-    @PutMapping(path = "{comment_id}")
-    public void update_comment(@PathVariable("comment_id") Long comment_id) {
-        comment_service.update_comment(comment_id);
+    @PutMapping(path = "{commentId}")
+    public void updateComment(@RequestBody Comment comment, @PathVariable("commentId") Long commentId) {
+        commentService.updateComment(commentId, comment);
     }
 }

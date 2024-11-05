@@ -1,6 +1,5 @@
 package com.example.todoapp.Comment;
 
-import com.example.todoapp.Task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

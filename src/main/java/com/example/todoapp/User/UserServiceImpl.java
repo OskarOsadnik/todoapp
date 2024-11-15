@@ -1,18 +1,28 @@
 package com.example.todoapp.User;
 
+import com.example.todoapp.Model.AuthenticatedUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 @Component
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {this.userRepository = userRepository;}
@@ -24,12 +34,12 @@ public class UserServiceImpl implements UserService {
 
     // POST
     public void addNewUser(User user) {
-        PasswordEncryptor passwordEncryptor = new PasswordEncryptor();
         Optional<User> userOptional = userRepository.findByLogin(user.getLogin());
         if (userOptional.isPresent()) {
             throw new IllegalArgumentException("User with email " + user.getLogin() + " already exists");
         }
-        user.setPassword(passwordEncryptor.encrypt(user.getPassword()));
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
         user.setCreationDate(LocalDate.now());
         userRepository.save(user);
     }
@@ -81,4 +91,10 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User u = userRepository.findUsersByName(username);
+        return new AuthenticatedUser(u);
+    }
 }

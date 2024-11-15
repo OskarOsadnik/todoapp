@@ -10,4 +10,6 @@
 - Pełne szyfrowanie hasła
 - Usunięcie @Query
 - Wszystkie funkcjonalności RESTa działają
-
+## v1.3b
+- Logowanie (in progres)
+- Relacje (in progres)
